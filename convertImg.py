@@ -1,5 +1,5 @@
 import removeLight
-
+import imgTransparent
 import kornia
 
 import os
@@ -31,11 +31,5 @@ def machinRunning(fileName):
     #이미지 저장 To do : 좀 더 완성도 있는 이미지로 저장하기
     # 원하는 디렉토리로 파일저장
     fig.savefig("convertImg"+fileName)
-
     #배경을 투명하게 하기
-    # im = Image.open("convertImg"+fileName).convert('RGB')
-    # im_inv = ImageOps.invert("convertImg"+fileName)
-    # im_inv_L = im_inv.convert('L')
-    # im.putalpha(im_inv_L)
-    # im.save("convertImg"+fileName, "png")
-
+    imgTransparent.imgTransparent(fileName)
