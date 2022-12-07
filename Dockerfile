@@ -21,6 +21,7 @@ RUN pip install torch
 RUN pip install opencv-python
 RUN pip install numpy
 RUN pip install matplotlib
+RUN pip install pillow
 
 RUN apt-get update
 RUN apt-get -y install libgl1-mesa-glx
