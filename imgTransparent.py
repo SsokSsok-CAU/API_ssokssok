@@ -12,4 +12,4 @@ def imgTransparent(fileName):
         else:
             newData.append(item)
     im.putdata(newData)
-    im.save("convertImg"+fileName,'PNG')
+    im.save("convertImg"+fileName,'PNG', qualty=70)
