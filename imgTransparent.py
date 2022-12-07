@@ -1,4 +1,4 @@
-from PIL import Image, ImageOps, ImageFilter
+from PIL import Image
 def imgTransparent(fileName):
     im = Image.open("convertImg"+fileName).convert('RGBA')
     datas = im.getdata()

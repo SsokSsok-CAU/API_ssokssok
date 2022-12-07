@@ -1,8 +1,6 @@
 import removeLight
 import imgTransparent
 import kornia
-
-import os
 import torch
 import cv2
 import numpy as np

@@ -1,7 +1,5 @@
 import cv2
 import numpy as np
-import os
-
 def removeLight(fileName):
     ### homomorphic filter는 gray scale image에 대해서 밖에 안 되므로
     ### YUV color space로 converting한 뒤 Y에 대해 연산을 진행
