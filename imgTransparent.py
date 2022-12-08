@@ -13,3 +13,11 @@ def imgTransparent(fileName):
             newData.append(item)
     im.putdata(newData)
     im.save("convertImg"+fileName,'PNG', qualty=70)
+
+def resizingImg(fileName):
+    img = Image.open(fileName)
+    print(img.size)
+    if img.width > 1500 and img.height > 1500:
+        img = img.resize((int(img.width / 2), int(img.height / 2)))
+    print(img.size)
+    img.save(fileName, 'PNG')
