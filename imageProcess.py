@@ -3,10 +3,19 @@ from flask import request
 from flask_restx import Resource, Namespace
 from jwtParse import ParseJwtPayLoad
 from convertImg import machinRunning
+from json import dumps
+from datetime import date, datetime
 
 from fbInitallize import pbstorage
 
 ImageProcess = Namespace('ImageProcess')
+
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError ("Type %s not serializable" % type(obj))
 
 def FileManage():
     file_list = os.listdir()
@@ -23,7 +32,7 @@ class ImageProcessing(Resource):
         tok = request.headers['Authorization']
         user_email = ParseJwtPayLoad(tok)['email']
         filename = request.form.get("filename")
-        all_files = pbstorage.list_files()
+        all_files = sorted(pbstorage.list_files(),key=lambda x:x.updated,reverse=True)
         result = []
         for file in all_files:
             fn = file.name.split('/')
@@ -42,7 +51,7 @@ class ImageProcessing(Resource):
         tok = request.headers['Authorization']
         user_email = ParseJwtPayLoad(tok)['email']
         my_files_url=[]
-        all_files = pbstorage.list_files()
+        all_files = sorted(pbstorage.list_files(),key=lambda x:x.updated,reverse=True)
         for file in all_files:
             filename = file.name.split('/')
             if len(filename)>2 :
@@ -59,7 +68,7 @@ class ImageProcessing(Resource):
         tok = request.headers['Authorization']
         user_email = ParseJwtPayLoad(tok)['email']
         my_files_url=[]
-        all_files = pbstorage.list_files()
+        all_files = sorted(pbstorage.list_files(),key=lambda x:x.updated,reverse=True)
         for file in all_files:
             filename = file.name.split('/')
             if len(filename)>2:
@@ -75,7 +84,7 @@ class ImageProcessing(Resource):
         tok = request.headers['Authorization']
         user_email = ParseJwtPayLoad(tok)['email']
         my_files_url=[]
-        all_files = pbstorage.list_files()
+        all_files = sorted(pbstorage.list_files(),key=lambda x:x.updated,reverse=True)
         for file in all_files:
             filename = file.name.split('/')
             if len(filename)>2 :
@@ -92,7 +101,7 @@ class ImageProcessing(Resource):
         tok = request.headers['Authorization']
         user_email = ParseJwtPayLoad(tok)['email']
         my_files_url=[]
-        all_files = pbstorage.list_files()
+        all_files = sorted(pbstorage.list_files(),key=lambda x:x.updated,reverse=True)
         for file in all_files:
             filename = file.name.split('/')
             if len(filename)>2:
