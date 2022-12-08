@@ -13,6 +13,7 @@ class SignUp(Resource):
     def post(self):
         email = request.form.get('email')
         password = request.form.get('password')
+        displayName = request.form.get('displayName')
         if email =="" or password =="" :
             error=[]
             if email =="" :
@@ -24,7 +25,8 @@ class SignUp(Resource):
             try :
                 user = auth.create_user(
                     email = email,
-                    password = password
+                    password = password,
+                    display_name = displayName
                 )
                 return {'message':f'Successfully create user{user.uid}'}, 200
             except:
@@ -38,7 +40,9 @@ class SignIn(Resource):
         try:
             user = pb.auth().sign_in_with_email_and_password(email,password)
             jwt = user['idToken']
-            return {'token':jwt},200
+            info = pb.auth().get_account_info(jwt)
+            displayName = info['users'][0]['displayName']
+            return {'token':jwt,'displayName':displayName},200
         except:
-            return {'message':'There was an error logging in'},400  
-
+            return {'message':'There was an error logging in'},400
+        
