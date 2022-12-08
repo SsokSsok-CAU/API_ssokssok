@@ -32,8 +32,7 @@ class ImageProcessing(Resource):
         tok = request.headers['Authorization']
         user_email = ParseJwtPayLoad(tok)['email']
         filename = request.form.get("filename")
-        all_files = sorted(pbstorage.list_files(),key=lambda x:x.updated,reverse=True)
-        result = []
+        all_files = pbstorage.list_files()
         for file in all_files:
             fn = file.name.split('/')
             if len(fn)>2 :
@@ -43,13 +42,32 @@ class ImageProcessing(Resource):
         pbstorage.child(user_email+'/convertImage/'+filename).put("convertImg"+filename)
         png_result_url = pbstorage.child(user_email+'/convertImage/'+filename).get_url(tok)
         svg_fliename = PngToSvg("convertImg"+filename)
-        svg_result_url = pbstorage.child(user_email+'/Coloring/'+svg_fliename).get_url(tok)
         pbstorage.child(user_email+'/Coloring/'+svg_fliename).put(svg_fliename)
+        svg_result_url = pbstorage.child(user_email+'/Coloring/'+svg_fliename).get_url(tok)
         FileManage()
         return {
             'png':png_result_url,
             'svg':svg_result_url
             }
+
+@ImageProcess.route('/ColoringSubmit')
+class ImageProcessing(Resource):
+    def post(self):
+        tok = request.headers['Authorization']
+        user_email = ParseJwtPayLoad(tok)['email']
+        filename = request.form.get("filename")
+        all_files = pbstorage.list_files()
+        for file in all_files:
+            fn = file.name.split('/')
+            if len(fn)>2 :
+                if  fn[0]==user_email and fn[1] == "Coloring" and fn[2]==filename:
+                    file.download_to_filename(filename)
+        png_filename = SvgToPng(filename)
+        pbstorage.child(user_email+'/Submit/'+png_filename).put(png_filename)
+        png_result_url = pbstorage.child(user_email+'/Submit/'+png_filename).get_url(tok)
+        FileManage()
+        return png_result_url
+                    
     
 @ImageProcess.route('/myfiles')
 class ImageProcessing(Resource):
