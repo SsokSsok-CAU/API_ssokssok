@@ -28,7 +28,7 @@ class SignUp(Resource):
                     password = password,
                     display_name = displayName
                 )
-                return {'message':f'Successfully create user{user.uid}'}, 200
+                return {'token':user['idToken'],'displayName':displayName}, 200
             except:
                 return "Error occur in creating user",400
 
