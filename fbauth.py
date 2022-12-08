@@ -1,3 +1,4 @@
+import json
 from flask import request
 from flask_restx import Resource, Namespace
 from firebase_admin import auth
