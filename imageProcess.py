@@ -2,8 +2,7 @@ import os
 from flask import request
 from flask_restx import Resource, Namespace
 from jwtParse import ParseJwtPayLoad
-from convertImg import machinRunning
-from json import dumps
+from convertImg import machinRunning, PngToSvg, SvgToPng
 from datetime import date, datetime
 
 from fbInitallize import pbstorage
@@ -22,7 +21,8 @@ def FileManage():
     png_list = []
     for file in file_list:
         if '.' in file:
-            if file.split('.')[1] =='png':
+            filemanager = file.split('.')
+            if filemanager[len(filemanager)-1] =='png' or filemanager[len(filemanager)-1]=='svg':
                 os.remove(file)     
     return 
 
@@ -41,9 +41,15 @@ class ImageProcessing(Resource):
                     file.download_to_filename(filename)
         machinRunning(filename)
         pbstorage.child(user_email+'/convertImage/'+filename).put("convertImg"+filename)
-        result_url = pbstorage.child(user_email+'/convertImage/'+filename).get_url(tok)
+        png_result_url = pbstorage.child(user_email+'/convertImage/'+filename).get_url(tok)
+        svg_fliename = PngToSvg("convertImg"+filename)
+        svg_result_url = pbstorage.child(user_email+'/Coloring/'+svg_fliename).get_url(tok)
+        pbstorage.child(user_email+'/Coloring/'+svg_fliename).put(svg_fliename)
         FileManage()
-        return result_url
+        return {
+            'png':png_result_url,
+            'svg':svg_result_url
+            }
     
 @ImageProcess.route('/myfiles')
 class ImageProcessing(Resource):

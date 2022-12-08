@@ -21,6 +21,8 @@ RUN pip install opencv-python
 RUN pip install numpy
 RUN pip install matplotlib
 RUN pip install pillow
+RUN pip install svglib
+RUN pip install reportlab
 
 RUN apt-get update
 RUN apt-get -y install libgl1-mesa-glx
