@@ -5,6 +5,8 @@ import torch
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPM
 kornia.__version__
 
 def machinRunning(fileName):
@@ -31,3 +33,15 @@ def machinRunning(fileName):
     fig.savefig("convertImg"+fileName)
     #배경을 투명하게 하기
     imgTransparent.imgTransparent(fileName)
+    
+def PngToSvg(fileName):
+    x=plt.imread(fileName)[...,0]    
+    svgfilename = fileName.split('.')[0]+".svg"
+    plt.imsave(svgfilename,x,format='svg',cmap='gray')
+    return svgfilename
+    
+def SvgToPng(fileName):
+    drawing = svg2rlg(fileName)
+    pngfilename = fileName.split('.')[0]+".png"
+    renderPM.drawToFile(drawing, pngfilename, fmt='PNG')
+    return pngfilename
