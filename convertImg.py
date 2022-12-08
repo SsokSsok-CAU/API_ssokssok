@@ -15,7 +15,7 @@ def machinRunning(fileName):
     data: torch.tensor = kornia.image_to_tensor(img, keepdim=False)/255.  # BxCxHxW
 
     # create the operator
-    canny = kornia.filters.Canny(0.1,0.2)
+    canny = kornia.filters.Canny(0.1,0.175)
 
     # blur the image
     x_magnitude, x_canny = canny(data.float())
