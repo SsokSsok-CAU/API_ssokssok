@@ -17,7 +17,7 @@ def imgTransparent(fileName):
 def resizingImg(fileName):
     img = Image.open(fileName)
     print(img.size)
-    if img.width > 1500 and img.height > 1500:
-        img = img.resize((int(img.width / 2), int(img.height / 2)))
+    ratio = 1600 / img.height
+    img = img.resize((int(img.width * ratio), 1600))
     print(img.size)
     img.save(fileName, 'PNG')
