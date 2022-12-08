@@ -36,7 +36,7 @@ def machinRunning(fileName):
     
 def PngToSvg(fileName):
     x=plt.imread(fileName)[...,0]    
-    svgfilename = fileName.split('.')+".svg"
+    svgfilename = fileName.split('.')[0]+".svg"
     plt.imsave(svgfilename,x,format='svg',cmap='gray')
     return svgfilename
     
