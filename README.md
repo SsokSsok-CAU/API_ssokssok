@@ -78,11 +78,6 @@ form-data: {email : ""}
 200
 ```
 
-### Response - fail
-
-```
-{message:"There was an error while logging in"},400
-```
 
 # ImageProcess
 
