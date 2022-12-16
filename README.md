@@ -49,7 +49,7 @@ form-data: {email : "", password:"", displayName : ""}
 ### Response - success
 
 ```
-{message : "Successfully create user {$USER_Valid_Key}},200
+{'token':{$JWT Token},'displayName':{$displayName}}200
 ```
 
 ### Response - fail
@@ -58,6 +58,30 @@ form-data: {email : "", password:"", displayName : ""}
 1. 이메일이 NULL 일 때 {"Username i s Missing"},400
 2. Password가 비어 있을 때 {"Password is Missing"},400
 3. 계정 생성에 실패했을 때(계정 중복, 이메일 형식 혹은 비밀번호 부적합) : "Error occur in creating user"
+```
+
+## 비밀번호 분실 API
+
+### Request
+
+`POST /auth/forgotPassword
+
+### Request BODY
+
+```
+form-data: {email : ""}
+```
+
+### Response - success
+
+```
+200
+```
+
+### Response - fail
+
+```
+{message:"There was an error while logging in"},400
 ```
 
 # ImageProcess
